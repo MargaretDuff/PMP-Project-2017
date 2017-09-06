@@ -3,19 +3,19 @@ Detection of Animal Feacal Parasites Using an ioLight Portable Microscope
 
 This project is a collaboration from a number of sources. It has been supervised by: Joana Grah (Cambridge Image Analysis), Carola Schonlieb (Cambridge Image Analysis), Jasmina Lazic (Mathworks), Stefanie Reichelt (CRUK) and Richard Williams (ioLight)
 
-The problem
+## The problem
 
 Antiparasitics are to parasites as antibiotics are to bacteria. Growing resistance and restrictions on drug levels for food producing animals forces farmers to be much more selective with treatment.  Traditional detection is done in a labrequiring an experienced technician or parasitologist. The new ioLight portable microscope has a 1 micro meter field of view and could enable this to be done in the field.  This project aims to produce an efficient automated image analysis solution, running on the microscope, to analyse the images and count eggs.
 
 
 
-Introduction 
+## Introduction 
 
 
 The purpose of this README is to give the results and a measure of complexity for each of the main algorithms that I have produced during the project. Explanations will be given briefly and relevant code signposted to help anyone who may wish to run code in the future. I give results in order of, in my opinion, usefulness. 
 
 
-Images 
+## Images 
 
 
 The algorithms all run on the images with a 1mm field of view and scaled to 25% of their original size to 486x648 pixels. I think I changed all the algorithms so they resize the images as soon as they loaded, but should things not run as expected then this is something to check. We have in total: 
@@ -29,7 +29,7 @@ The algorithms all run on the images with a 1mm field of view and scaled to 25% 
 • 5 images containing 3 eggs 
 
 
-Notes 
+## Notes 
 
 
 • Accuracy is given by two main values. The first being the percentage of images where the algorithm has correctly identified the correct number of eggs. The second being the percentage of images that the algorithm has correctly identified as having eggs or not. This second number can be brokendown into the sensitivity (images not containing eggs correctly identified) and specificity ( images containing eggs which were correctly identified).
@@ -39,18 +39,18 @@ Notes
 – Using code obtained from Matlab file exchange I follow their instructions to make an estimate for the number of floating point operations (https://uk.mathworks.com/matlabcentral/fileexchange/50608counting-the-floating-point-operations–flops2) 
 
 
-Segment  Image and Analyse Properties 
+## Segment  Image and Analyse Properties 
 
 
 This is a simple method but is consistently one of the most effective and it is the least complex. It takes an image, pulls out regions that contain “something” and then analyse properties of this region to decide if it is an egg or not 
 
 
-Basic Method 
+### Basic Method 
 
 
 There are 3 functions that are important with this algorithm. I also included the program Detectingroundobjects which is a script version of analysefeatures and is mainly what I have been using for development and contains, commented out, a section where I was playing with standard deviation filtering to disentangle eggs from black lines. I left it in in case it becomes useful. 
 
-segmentImage1mm 
+#### segmentImage1mm 
 
 Takes an image as an input 
 
@@ -64,7 +64,7 @@ Takes an image as an input
 8. Outputs the final binary image 
 
 
-analysefeatures 
+#### analysefeatures 
 
 Takes an image path as an input 
 
@@ -80,32 +80,29 @@ Takes an image path as an input
 5. Outputs the total number of eggs predicted 
 You can change the parameters for deciding if an object is an egg at the beginning of this program. There is some commented out sections where I have been investigating using colour to help decide if an object is an egg or not. I have not been very successful but I leave it in case it should become useful. 
 
-testingAnalyseFeatures 
+#### testingAnalyseFeatures 
 
 This is the program that brings things together allowingyou to run this on multiple images and output as a table. 
 
 
-Results  and Complexity 
+### Results  and Complexity 
 
 
 It correctly predicts the right number of eggs in an image 77.11% of the time. It predicts eggs/not 85.07% of the time. Sensitivity of 79.80% and specificity 90.72%. A confusion matrix is included in Figure 1. The paramaters were originally decided based on eggs in abut half of the images and then rounded to nearest ’nice’ numbers so I don’t believe it has been overfitted to just this set of images and should hopefully be successful with other samples. 
 On the 35 images, it took 148846 floating point operations. 
 
 
- 
-
-
-Neural Networks 
+## Neural Networks 
 
 
 I have created a classifier using the neural network app in Matlab which forms part of a method which when given an image will return a predicted number of eggs thus can be run without any knowledge of machine learning. I will explain how to run this and then how to train another classifier should you wish. 
 
-Current method 
+### Current method 
 
 
 There are 4 items that you need to run this program and then the segmentImage1mm.m algorithm described above. 
 
-cropandanalyse.m 
+#### cropandanalyse.m 
 
 This is the main function that is required. It takes on image path as its input and outputs a predicted number of eggs 
 
@@ -118,21 +115,21 @@ This is the main function that is required. It takes on image path as its input 
 7. It counts and outputs the numberof eggs in theimage
 
 
-bagoffeaturescroppedimages5.mat 
+#### bagoffeaturescroppedimages5.mat 
 
 This is a mat file containing the bagoffeatures that is used to encode images 
 
 
-myNueralNetworkFunction5.m 
+#### myNueralNetworkFunction5.m 
 
 This takes a vector representing an images encoded using the bagooffeatures and outputsa 1 x 2 vector. If this rounds to [1,0] I have taken this as to predict an egg, [0,1] to not predict an egg, however it might be interesting 
 to consider using the non-rounded values as some measure of probabilityof whether the image is an egg or not. I have also included in the dropbox the program myNeuralNetworkFunctionCoder5.m whichis meant to work  better with the Matlab code converter. 
 
-testingneuralnetwork.m 
+#### testingneuralnetwork.m 
 
 This runs cropandanalyse on an image set and outputs as a table. 
 
-Results 
+### Results 
 
 
 This neural network has 20 nodes and was trained on 55% of the set. On the whole set it got results of 84.08% for correctly determining the number of eggs and 90.05% for deciding eggs or not. With a sensitivity of 82.69% and a specificity of 97.94%. Results should only improve with more images but due to the method of cropping out objects it will generally always miss eggs attached to the black 
@@ -140,9 +137,8 @@ lineboundaries.
 For the 25 images it required 4112597 floatingpoint operations (about 40 times more than the previous method). 
 
 
-Figure 2: Confusion Matrix for the method “Neural Network” 
 
-Training a new network 
+### Training a new network 
 
 
 For thisyou could use the script processandcropimagesinimageset.m and the functions cropimages.m and segmentimages1mm.m. Firstyou load the folder that contains the images and then have a choice of what percentage you use for training and testing (note thatyou will get this option again in the neural network pattern finder so you could just set imgSet=Set). 
@@ -154,17 +150,17 @@ A visual bag of features is created from these sets and all the images are encod
 You can now run the neural network pattern recognition app. You want to take your independent variables as eggsData and dependent as eggsType and you may need to select the option to switch rows and columns in order that they match up. 
 
 
-Rotate, Scale and Find Circles 
+## Rotate, Scale and Find Circles 
 
 
 This methodis not the most accurate or the least complex but I am quite fond of it. It uses a circular Hough transform to find circles in a rotated and rescaled binary edge image. Such a circle would correspond to an ellipse with the same ratio of major to minor axis as the eggs we are looking for. 
 
-Basic Method 
+### Basic Method 
 
 
 The main function does all the work for this method and then there is an optional extra program to run on multiple images and output as a table. 
 
-scaleRotateFindCriclesOld.m 
+#### scaleRotateFindCriclesOld.m 
 
 The program input is an image path 
 
@@ -183,11 +179,11 @@ range and put a tighter condition on the radius
 (e) Adjust total number of eggs accordingly 
 8. The program outputs the total number of eggs in an image 
 
-MultipleImagesRotateFindCirclesOld.m 
+#### MultipleImagesRotateFindCirclesOld.m 
 
 Runs scaleRotateFindCriclesOld.m on an image set and ouputs results as a table 
 
-Results 
+### Results 
 
 
 The algorithm correctly predicts the number of eggs in an image 67.16% of the time and if the image contains eggs or not 77.61% of the time. It has a sensitivity of 71.15% and specificity of 83.67%.
@@ -196,7 +192,7 @@ For the 35 images, it took 43804 floating point operations, about 4 times as man
 
 
  
-Rotate, Scale and Find Circles with Total Variation
+## Rotate, Scale and Find Circles with Total Variation
 
 
 This method is almost identical to before and the main function is the same -minus the suffix ’Old’. It can be run on multiple images by removing the suffix old in the relevant line of the multiple images script. 
