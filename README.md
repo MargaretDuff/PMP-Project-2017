@@ -1,13 +1,18 @@
 # PMP-Project-2017
 Detection of Animal Feacal Parasites Using an ioLight Portable Microscope
 
+This project is a collaboration from a number of sources. It has been supervised by: Joana Grah (Cambridge Image Analysis), Carola Schonlieb (Cambridge Image Analysis), Jasmina Lazic (Mathworks), Stefanie Reichelt (CRUK) and Richard Williams (ioLight)
+
+The problem
+
+Antiparasitics are to parasites as antibiotics are to bacteria. Growing resistance and restrictions on drug levels for food producing animals forces farmers to be much more selective with treatment.  Traditional detection is done in a labrequiring an experienced technician or parasitologist. Thenew ioLight portable microscope has a 1 micro meter field of viewand could enable this to be done in the field.  This projectaims to produce an efficient automated image analysis solution, running on the microscope, to analyse the images and count eggs.
 
 
 
 Introduction 
 
 
-The purpose of this report is to give the results and a measure of complexity for each of the main algorithms that I have produced during the project. Explanations will be given briefly and relevant code signposted to help anyone who may wish to run code in the future. I give results in order of, in my opinion, usefulness. 
+The purpose of this README is to give the results and a measure of complexity for each of the main algorithms that I have produced during the project. Explanations will be given briefly and relevant code signposted to help anyone who may wish to run code in the future. I give results in order of, in my opinion, usefulness. 
 
 
 Images 
