@@ -5,7 +5,7 @@ This project is a collaboration from a number of sources. It has been supervised
 
 The problem
 
-Antiparasitics are to parasites as antibiotics are to bacteria. Growing resistance and restrictions on drug levels for food producing animals forces farmers to be much more selective with treatment.  Traditional detection is done in a labrequiring an experienced technician or parasitologist. Thenew ioLight portable microscope has a 1 micro meter field of viewand could enable this to be done in the field.  This projectaims to produce an efficient automated image analysis solution, running on the microscope, to analyse the images and count eggs.
+Antiparasitics are to parasites as antibiotics are to bacteria. Growing resistance and restrictions on drug levels for food producing animals forces farmers to be much more selective with treatment.  Traditional detection is done in a labrequiring an experienced technician or parasitologist. The new ioLight portable microscope has a 1 micro meter field of view and could enable this to be done in the field.  This project aims to produce an efficient automated image analysis solution, running on the microscope, to analyse the images and count eggs.
 
 
 
@@ -18,7 +18,7 @@ The purpose of this README is to give the results and a measure of complexity fo
 Images 
 
 
-The algorithms all run on the images with a 1mm field of view and scaled to 25% of their original size to 486x648 pixels.I thinkI changed all the algorithms so they resize the images as soon as they loaded, but should things not run as expected then this is something to check. We have in total: 
+The algorithms all run on the images with a 1mm field of view and scaled to 25% of their original size to 486x648 pixels. I think I changed all the algorithms so they resize the images as soon as they loaded, but should things not run as expected then this is something to check. We have in total: 
 
 • 97 images containing no eggs 
 
@@ -59,8 +59,8 @@ Takes an image as an input
 3. Fill holes 
 4. Remove small objects 
 5. Use morphological openingand closing to smooth the image 
-6.Trace the boundaries and find the area of all objects 
-7.If the area of an object is between 1800 and 3000 (about twice the size of an egg) then we take that object and perform a distance transform before a watershed transform to try and separate to objects joined together 
+6. Trace the boundaries and find the area of all objects 
+7. If the area of an object is between 1800 and 3000 (about twice the size of an egg) then we take that object and perform a distance transform before a watershed transform to try and separate to objects joined together 
 8. Outputs the final binary image 
 
 
